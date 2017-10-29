@@ -1,0 +1,33 @@
+
+    <view class="get-coupon flex-y-center flex-x-center">
+        <view class="get-coupon-box" style="overflow: visible">
+            <image mode="widthFix" class="get-coupon-bg" src="/dist/images/coupon/img-get-coupon-bg.png"></image>
+            <view class="flex-x-center mb-20">
+              <view wx:if="{{couponType == 1}}">
+                <image src="/dist/images/coupon/img-get-coupon-user.png" style="width: 426rpx;height: 101rpx"></image>
+              </view>
+              <view wx:else>
+                <image src="/dist/images/coupon/img-get-coupon-title.png" style="width: 226rpx;height: 51rpx"></image>
+              </view>
+            </view>
+            <scroll-view class="coupon-list" scroll-y="true">
+                <view class="coupon-item flex-y-center">
+                    <image mode="widthFix" src="/dist/images/coupon/img-get-coupon-item-bg.png"
+                           style="width: 100%;height: 100%"></image>
+                    <view style="width: 100%">
+                        <view class="flex-row flex-y-center">
+                            <view class="flex-grow-1 flex-row flex-y-bottom">
+                                <view style="line-height: 1">￥</view>
+                                <view style="font-size: 23pt;line-height: .85">{{dcData.price}}</view>
+                            </view>
+                            <view class="flex-grow-0" style="font-size: 9pt;line-height: 32rpx;margin-right:50rpx;">
+                                {{dcData.show_language}}
+                            </view>
+                        </view>
+                        <view style="width:90%;" bindtap="hideGetCoupon" data-price="{{dcData.price}}" class="use-now">立即领取</view>
+                        <view style="font-size: 9pt">* 本券额度将累加并且永久有效</view>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>

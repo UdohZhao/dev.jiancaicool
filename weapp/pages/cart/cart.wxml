@@ -1,0 +1,56 @@
+<view class="page">
+    <view class="page__bd">
+
+      <!-- 购物车 start -->
+      <view class="main">
+          <view wx:if="{{hasList}}">
+              <view class="cart-box">
+                  <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
+                      <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
+                      <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList"/>
+                      <navigator url="/pages/goodsDetail/goodsDetail?gid={{item.gid}}"><image class="cart-thumb" src="{{domain}}{{item.gData.img_path}}"></image></navigator>
+                      <text class="cart-pro-name">「{{item.specification}}」{{item.gData.cname}}</text>
+                      <text class="cart-pro-price">￥{{item.gData.promotion_price}} - {{item.gData.percentage_price}}</text>
+                      <view class="cart-count-box">
+                          <text class="cart-count-down" bindtap="minusCount" data-index="{{index}}">-</text>
+                          <text class="cart-count-num">{{item.quantity}}</text>
+                          <text class="cart-count-add" bindtap="addCount" data-index="{{index}}">+</text>
+                      </view>
+                      <text class="cart-del" bindtap="deleteList" data-index="{{index}}" data-id="{{item.id}}" >×</text>
+                  </view>
+              </view>
+
+              <view class="cart-footer">
+                  <icon wx:if="{{selectAllStatus}}" type="success_circle" color="#fff" class="total-select" bindtap="selectAll"/>
+                  <icon wx:else type="circle" color="#fff" class="total-select" bindtap="selectAll"/>
+                  <!-- <navigator url="../orders/orders"><view class="order-icon"></view></navigator> -->
+                  <view class="cart-btn-settlement" bindtap="closeAnAccount">结 算</view>
+                  <text>全选</text>
+                  <text class="cart-toatl-price">合计价格:￥{{totalPrice}}</text>
+              </view>
+          </view>
+          <view wx:else>
+            <view class="page">
+                <view class="weui-msg">
+                    <view class="weui-msg__icon-area">
+                        <icon type="info" size="93"></icon>
+                    </view>
+                    <view class="weui-msg__text-area">
+                        <view class="weui-msg__title">购物车竟然是空的</view>
+                        <view class="weui-msg__desc">"再忙也要记得买点什么～"</view>
+                    </view>
+                    <view class="weui-msg__extra-area">
+                        <view class="weui-footer">
+                            <view class="weui-footer__links">
+                                <view class="weui-footer__link">{{technicalSupport}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+          </view>
+      </view>
+      <!-- 购物车 end -->
+
+    </view>
+</view>

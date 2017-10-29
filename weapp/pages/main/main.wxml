@@ -1,0 +1,108 @@
+<view class="page">
+    <view class="page__bd">
+
+    <!-- 首页banner start -->
+    <swiper indicator-dots="{{indicatorDots}}"
+      autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:500rpx;">
+      <block wx:for="{{gData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
+        <swiper-item data-gid="{{v.id}}" bindtap="gotoGoodsDetail">
+          <image src="{{domain}}{{v.img_path}}" class="slide-image"/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <!-- 首页banner end -->
+
+      <view class="weui-tab">
+          <!-- <view class="weui-navbar">
+              <block wx:for="{{gcData}}" wx:key="i" wx:for-index="k" wx:for-item="v" >
+                  <view id="{{k}}" class="weui-navbar__item {{activeIndex == k ? 'weui-bar__item_on' : ''}}" data-gcid="{{v.id}}" bindtap="tabClick">
+                      <view class="weui-navbar__title">{{v.cname}}</view>
+                  </view>
+              </block>
+              <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+          </view> -->
+
+        <view class="weui-grids gc-grids">
+            <block wx:for="{{gcData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
+                <view id="{{k}}" data-gcid="{{v.id}}" bindtap="tabClick" class="weui-grid gc-grid" hover-class="weui-grid_active">
+                <view wx:if="{{k == 0}}">
+                    <image class="weui-grid__icon" src="{{v.icon_path}}"/>
+                </view>
+                <view wx:else>
+                    <image class="weui-grid__icon" src="{{domain}}{{v.icon_path}}"/>
+                </view>
+                    <view class="weui-grid__label">{{v.cname}}</view>
+                </view>
+            </block>
+        </view>
+
+          <view class="weui-tab__panel goods-box">
+
+          <!-- <view wx:if="{{gData}}">
+            <view class="weui-flex">
+              <view class="weui-flex__item">
+                <image src="{{domain}}{{banner}}" class="banner"></image>
+              </view>
+            </view>
+          </view> -->
+
+            <!-- 遍历体 start -->
+            <block wx:for="{{gcData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
+            <view class="weui-tab__content" hidden="{{activeIndex != k}}">
+
+              <!-- if start -->
+              <view wx:if="{{gData}}">
+              <view class="hot-recommend">——— 热门推荐 ———</view>
+                <!--weui-flex-->
+                <block wx:for="{{gData}}" wx:key="ii" wx:for-index="kk" wx:for-item="vv">
+                <view class="weui-flex commodity-flex" data-gid="{{vv.id}}" bindtap="gotoGoodsDetail">
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <view class="commodity-box">  
+                        <image class="img-thumb" src="{{domain}}{{vv.img_path}}"></image>
+                        <!-- <view class="commodity-price">¥{{vv.promotion_price}}</view> -->
+                        <view class="commodity-title">{{vv.cname}}</view>
+                        <view class="goods-price">¥{{vv.promotion_price}}</view>
+                        <text class="goods-sales-volume">销量：{{vv.igData.count}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+                </block>
+                <!--weui-flex--> 
+              </view>
+              <view wx:else>
+                <view class="page">
+                    <view class="weui-msg">
+                        <view class="weui-msg__icon-area">
+                            <icon type="info" size="93"></icon>
+                        </view>
+                        <view class="weui-msg__text-area">
+                            <view class="weui-msg__title">暂无商品</view>
+                            <view class="weui-msg__desc">"等待商家上传商品"</view>
+                        </view>
+                        <view class="weui-msg__extra-area">
+                            <view class="weui-footer">
+                                <view class="weui-footer__links">
+                                    <view class="weui-footer__link">{{technicalSupport}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+              </view> 
+              <!-- if end -->
+
+            </view>
+            </block>
+            <!-- 遍历体 end  -->
+
+          </view>
+      </view>
+    </view>
+</view>
+
+<!-- 优惠券 -->
+<view hidden="{{coupon}}">
+<include src="/dist/commons/get-coupon/get-coupon.wxml"/> 
+</view>

@@ -1,0 +1,71 @@
+{% extends "layouts.html" %}
+{% block content%}
+
+<!-- Page -->
+<div class="page animsition">
+  <div class="page-header">
+    <h1 class="page-title"># 商品管理</h1>
+  </div>
+  <div class="page-content">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 添加商品分类</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" id="goodsCategoryForm" action="/admin/goodsCategory/add/id/{{ data.id }}" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">图标</label>
+            <div class="col-sm-10">
+              {% if data.icon_path %}
+              <div id="preview0">
+                <img id="imghead0" border="0" src="{{data.icon_path}}" width="28" height="28" onclick="delIcon({{data.id}},'{{data.icon_path}}');">
+              </div>
+              <input type="hidden" id="previewImg0" name="icon_path" value="{{data.icon_path}}">
+              {% else %}
+              <div id="preview0">
+                <img id="imghead0" border="0" src="/apps/admin/views/goodsCategory/img/photo.png" width="50" height="50" onclick="$('#previewImg0').click();">
+              </div>
+              <input type="file" onchange="previewImage(this,'preview0','imghead0','previewImg0')" style="display: none;" id="previewImg0" name="icon_path" accept="image/*">
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">名称</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="cname" value="{{ data.cname }}" placeholder="请输入商品类别名称">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">排序</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="sort" value="{{ data.sort }}" placeholder="排序？数字越小越靠前">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
+            <div class="col-sm-10">
+              <label class="radio-inline">
+                <input type="radio" name="type" value="0" checked="checked"> 普通
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="type" value="1"> 拼团
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">提 交</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+
+{% endblock %}
+
+{% block js %}
+<script src="/apps/admin/views/goodsCategory/js/add.js"></script>
+{% endblock %}

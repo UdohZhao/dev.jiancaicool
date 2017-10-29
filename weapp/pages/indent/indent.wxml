@@ -1,0 +1,156 @@
+<view class="page">
+<view class="page__bd">
+
+<!--if start-->
+<view wx:if="{{iData}}">
+ 
+<!--foreach start-->
+<block wx:for="{{iData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
+
+<!--订单item start-->
+<view class="weui-flex">
+  <view class="weui-flex__item">
+        <view class="weui-panel weui-panel_access">
+            <view class="weui-panel__hd">
+            订单号：{{v.inumber}}
+            <text class="indent-status">
+            <block wx:if="{{v.type == 0 && v.status == 0}}">「待完善」</block>
+            <block wx:if="{{v.type == 0 && v.status == 1}}">「待付款」</block>
+            <block wx:if="{{v.type == 0 && v.status == 2}}">「取消订单」</block>
+            <block wx:if="{{v.type == 0 && v.status == 3}}">「订单超时」</block>
+            <block wx:if="{{v.type == 1 && v.status == 1}}">「待发货」</block>
+            <block wx:if="{{v.type == 2 && v.status == 1}}">「待收货」</block>
+            <block wx:if="{{v.type == 3 && v.status == 1 && itype == 1 }}">「已收货」</block>
+            <block wx:if="{{v.type == 3 && v.status == 1 && itype == 0 }}">「待评价」</block>
+            <block wx:if="{{v.type == 4 && v.status == 1 && itype == 0 }}">「售后服务」</block>
+            <block wx:if="{{v.type == 4 && v.status == 4 && itype == 0 }}">「申请退款」</block>
+            <block wx:if="{{v.type == 4 && v.status == 5 && itype == 0 }}">「退款失败」</block>
+            <block wx:if="{{v.type == 4 && v.status == 6 && itype == 0 }}">「退款成功」</block>
+            </text>
+            </view>
+            <view class="weui-panel__bd">
+
+            <block wx:for="{{v.igData}}" wx:key="ii" wx:for-index="kk" wx:for-item="vv">
+
+              <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                  <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                      <image class="weui-media-box__thumb" src="{{domain}}{{vv.img_path}}" />
+                  </view>
+                  <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                      <view class="weui-media-box__title g-title">「{{vv.goods_specification}}」{{vv.goods_name}}</view>
+                      <view class="weui-media-box__desc">
+              <text class="commodity-prices">¥{{vv.goods_price}}</text>
+              <text class="buy-quantity">x{{vv.quantity}}</text>
+                      </view>
+                  </view>
+              </view>
+
+             </block>
+
+
+            </view>
+            <view class="weui-panel__ft">
+                <view class="weui-cell weui-cell_access weui-cell_link">
+                    <view class="weui-cell__bd">订单金额：<text class="indent-prices">¥{{v.total_money}}</text></view>
+
+
+        <block wx:if="{{v.type == 0 && v.status == 0}}">
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="coo">取消订单</button>
+          -
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="perfect">立即完善</button>          
+        </block>
+
+        <block wx:if="{{v.type == 0 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="coo">取消订单</button>
+          -
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="iPay">立即付款</button>          
+        </block>
+
+        <block wx:if="{{v.type == 1 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>          
+        </block>
+
+        <block wx:if="{{v.type == 2 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>
+          -
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="tdog">确认收货</button>          
+        </block>
+
+        <block wx:if="{{v.type == 3 && v.status == 1 && v.itype == 0 }}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="afterSale">进入售后</button>          
+          -
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="estimate">立即评价</button>          
+        </block>
+
+        <block wx:if="{{v.type == 3 && v.status == 1 && v.itype == 1 }}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>           
+        </block>
+
+        <block wx:if="{{v.type == 4 && v.status == 1 && v.itype == 0 }}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>
+          -
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="refund">申请退款</button>          
+        </block>
+
+        <block wx:if="{{v.type == 4 && v.status == 4 && v.itype == 0 }}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>           
+        </block>
+
+        <block wx:if="{{v.type == 4 && v.status == 5 && v.itype == 0 }}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>           
+        </block>
+
+        <block wx:if="{{v.type == 4 && v.status == 6 && v.itype == 0 }}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>           
+        </block>
+
+                </view>
+            </view>
+        </view>
+  </view>
+</view>
+<!--订单item end-->
+
+</block>
+<!--foreach end-->
+
+</view>
+<!--if end-->
+
+<!--else start-->
+<view wx:else>
+
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <icon type="info" size="93"></icon>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">暂无数据</view>
+            <view class="weui-msg__desc">"您还没有相关订单信息"</view>
+        </view>
+        <view class="weui-msg__extra-area">
+            <view class="weui-footer">
+                <view class="weui-footer__links">
+                    <view class="weui-footer__link">{{technicalSupport}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+</view>
+<!--else end-->
+
+
+
+</view>
+</view>
+
+
+
+
+
+
+
+

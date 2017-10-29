@@ -3,7 +3,7 @@ App({
   data: {
     // 域名
     //domain: "https://weapp.icunji.com",
-    domain: "http://dev.jiancaicool.local",
+    domain: "http://dev.jiancaicool.vag",
     phone: "18423031898",
     technicalSupport: ""
   },

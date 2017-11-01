@@ -18,7 +18,11 @@ Page({
     minusStatus: 'disabled',
     domain: App.data.domain,
     radioValue: 0,
-    imgUrls: ''
+    imgUrls: '',
+    specificationIndex: 0,
+    gmodelIndex: 0,
+    isDelivery: 1,
+    isInstallation: 1
   
   },
 
@@ -176,8 +180,11 @@ Page({
     // 获取购买类型
     console.log(e.currentTarget.dataset.buytype);
 
+     // 默认送货和安装全选
     that.setData({
-      buytype: e.currentTarget.dataset.buytype
+      buytype: e.currentTarget.dataset.buytype,
+      isDelivery: 1,
+      isInstallation: 1
     });
 
     // 检测登录态 
@@ -404,8 +411,11 @@ Page({
       })
     }.bind(that), 200);
 
-    // 核心操作（获取选中的商品规格，购买数量）
-    console.log(that.data.radioValue);
+    // 核心操作（获取选中的商品规格，商品型号，是否送货上门，是否上门安装，购买数量）
+    console.log(that.data.gData.specification[that.data.specificationIndex]);
+    console.log(that.data.gData.gModel[that.data.gmodelIndex]);
+    console.log(that.data.isDelivery);
+    console.log(that.data.isInstallation);
     console.log(that.data.num);
     console.log(wx.getStorageSync('openid'));
     console.log(that.data.gData.inventory);
@@ -423,6 +433,14 @@ Page({
     } else if (that.data.buytype == 1) {
       // 拼团购买
       promotion_price = that.data.gData.promotion_price;
+
+      // 是否送货，安装？
+      if (that.data.isDelivery == 1) {
+        promotion_price = parseFloat(promotion_price) + parseFloat(that.data.gData.delivery_expense);
+      }
+      if (that.data.isInstallation == 1) {
+        promotion_price = parseFloat(promotion_price) + parseFloat(that.data.gData.installation_expense);
+      }
 
       // 请求参团加入
       wx.request({
@@ -465,8 +483,11 @@ Page({
               url: App.data.domain + '/cart/add',
               data: {
                 openid: wx.getStorageSync('openid'),
-                specification: that.data.radioValue,
+                specification: that.data.gData.specification[that.data.specificationIndex],
+                gmodel: that.data.gData.gModel[that.data.gmodelIndex],
                 quantity: that.data.num,
+                isdelivery: that.data.isDelivery,
+                isinstallation: that.data.isInstallation,
                 gid: that.data.gData.id
               },
               header: {
@@ -503,7 +524,8 @@ Page({
                   console.log(res.data.data.cid);
                   console.log(that.data.gData.id);
                   console.log(that.data.gData.cname);
-                  console.log(that.data.radioValue);
+                  console.log(that.data.gData.specification[that.data.specificationIndex]);
+                  console.log(that.data.gData.gModel[that.data.gmodelIndex]);
                   console.log(promotion_price);
                   console.log(that.data.num);
 
@@ -514,9 +536,13 @@ Page({
                       cid: res.data.data.cid,
                       gid: that.data.gData.id,
                       cname: that.data.gData.cname,
-                      specification: that.data.radioValue,
+                      specification: that.data.gData.specification[that.data.specificationIndex],
+                      gmodel: that.data.gData.gModel[that.data.gmodelIndex],
                       promotion_price: promotion_price,
                       quantity: that.data.num,
+                      isdelivery: that.data.isDelivery,
+                      isinstallation: that.data.isInstallation,
+                      totalPrice: promotion_price,
                       buytype: that.data.buytype,
                       ggid: that.data.gData.ggData.id
                     },
@@ -609,6 +635,14 @@ Page({
       
       // 单独购买
       promotion_price = that.data.gData.original_price;
+      
+      // 是否送货，安装？
+      if (that.data.isDelivery == 1) {
+        promotion_price = parseFloat(promotion_price) + parseFloat(that.data.gData.delivery_expense);
+      }
+      if (that.data.isInstallation == 1) {
+        promotion_price = parseFloat(promotion_price) + parseFloat(that.data.gData.installation_expense);
+      }
 
       // 友好体验开始
       wx.showLoading({
@@ -619,8 +653,11 @@ Page({
         url: App.data.domain + '/cart/add',
         data: {
           openid: wx.getStorageSync('openid'),
-          specification: that.data.radioValue,
+          specification: that.data.gData.specification[that.data.specificationIndex],
+          gmodel: that.data.gData.gModel[that.data.gmodelIndex],
           quantity: that.data.num,
+          isdelivery: that.data.isDelivery,
+          isinstallation: that.data.isInstallation,
           gid: that.data.gData.id
         },
         header: {
@@ -657,7 +694,8 @@ Page({
             console.log(res.data.data.cid);
             console.log(that.data.gData.id);
             console.log(that.data.gData.cname);
-            console.log(that.data.radioValue);
+            console.log(that.data.gData.specification[that.data.specificationIndex]);
+            console.log(that.data.gData.gModel[that.data.gmodelIndex]);
             console.log(promotion_price);
             console.log(that.data.num);
 
@@ -668,9 +706,13 @@ Page({
                 cid: res.data.data.cid,
                 gid: that.data.gData.id,
                 cname: that.data.gData.cname,
-                specification: that.data.radioValue,
+                specification: that.data.gData.specification[that.data.specificationIndex],
+                gmodel: that.data.gData.gModel[that.data.gmodelIndex],
                 promotion_price: promotion_price,
-                quantity: that.data.num
+                quantity: that.data.num,
+                isdelivery: that.data.isDelivery,
+                isinstallation: that.data.isInstallation,
+                totalPrice: promotion_price
               },
               header: {
                 'content-type': 'application/x-www-form-urlencoded'
@@ -739,6 +781,66 @@ Page({
 
     }
 
+  },
+
+  /**
+   * 选择商品规格
+   */
+  bindSpecificationChange: function (e) {
+    console.log(e.detail.value);
+
+    this.setData({
+      specificationIndex: e.detail.value
+    })
+
+  },
+
+  /**
+   * 选择商品型号
+   */
+  bindGmodelChange: function (e) {
+    console.log(e.detail.value);
+
+    this.setData({
+      gmodelIndex: e.detail.value
+    })
+
+  },
+
+  /**
+   * 送货费用
+   */
+  bindDeliveryTap: function (e) {
+    var that = this;
+    // true or false
+    if (that.data.isDelivery == 1) {
+      that.setData({
+        isDelivery: 0
+      })
+    } else {
+      that.setData({
+        isDelivery: 1
+      })
+    }
+    console.log(that.data.isDelivery);
+  },
+
+  /**
+   * 安装费用
+   */
+  bindInstallationTap: function (e) {
+    var that = this;
+    // true or false
+    if (that.data.isInstallation == 1) {
+      that.setData({
+        isInstallation: 0
+      })
+    } else {
+      that.setData({
+        isInstallation: 1
+      })
+    }
+    console.log(that.data.isInstallation);
   }
 
 })

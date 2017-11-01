@@ -1,8 +1,10 @@
 .commodity-prices{
   color: #ff2600;
+  font-size: 28rpx;
 }
 .buy-quantity{
   float: right;
+  font-size: 28rpx;  
 }
 .coo-btn{
   margin: 0;

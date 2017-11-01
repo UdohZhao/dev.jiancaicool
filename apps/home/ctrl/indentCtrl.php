@@ -99,12 +99,13 @@ class indentCtrl extends baseCtrl{
       $idata['ggid'] = isset($_POST['ggid']) ? $_POST['ggid'] : 0;
       $idata['openid'] = $this->openid;
       $idata['inumber'] = createIn();
-      if ($this->itype == 1) {
-        // 拼团商品计算价格
-        $idata['total_money'] = bcmul($_POST['promotion_price'], $_POST['quantity'], 2);
-      } else {
-        $idata['total_money'] = isset($_POST['totalPrice']) ? $_POST['totalPrice'] : 0;
-      }
+      // if ($this->itype == 1) {
+      //   // 拼团商品计算价格
+      //   $idata['total_money'] = bcmul($_POST['promotion_price'], $_POST['quantity'], 2);
+      // } else {
+      //   $idata['total_money'] = isset($_POST['totalPrice']) ? $_POST['totalPrice'] : 0;
+      // }
+      $idata['total_money'] = isset($_POST['totalPrice']) ? $_POST['totalPrice'] : 0;
       $idata['ctime'] = time();
       $idata['itype'] = $this->itype;
       $idata['type'] = 0;
@@ -126,16 +127,21 @@ class indentCtrl extends baseCtrl{
     $_POST['promotion_price'] = explode(',', $_POST['promotion_price']);
     $_POST['quantity'] = explode(',', $_POST['quantity']);
     $_POST['specification'] = explode(',', $_POST['specification']);
+    $_POST['gmodel'] = explode(',', $_POST['gmodel']);
+    $_POST['isdelivery'] = explode(',', $_POST['isdelivery']);
+    $_POST['isinstallation'] = explode(',', $_POST['isinstallation']);
     foreach ($_POST['cid'] AS $k => $v) {
       $igdata[$k]['iid'] = $iid;
       $igdata[$k]['gid'] = $_POST['gid'][$k];
       $igdata[$k]['goods_name'] = $_POST['cname'][$k];
       $igdata[$k]['goods_specification'] = $_POST['specification'][$k];
+      $igdata[$k]['goods_model'] = $_POST['gmodel'][$k];
       $igdata[$k]['goods_price'] = $_POST['promotion_price'][$k];
       $igdata[$k]['quantity'] = $_POST['quantity'][$k];
+      $igdata[$k]['isdelivery'] = $_POST['isdelivery'][$k];
+      $igdata[$k]['isinstallation'] = $_POST['isinstallation'][$k];
     }
     return $igdata;
-
   }
 
   // 初始化订单收货数据
@@ -321,17 +327,9 @@ class indentCtrl extends baseCtrl{
     if (IS_GET === true) {
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
-      // 优惠券（订单满多少立即多少？）
-      $iprice = isset($_GET['iprice']) ? intval($_GET['iprice']) : 0;
-      $price = isset($_GET['price']) ? intval($_GET['price']) : 0;
-      if ($iprice != 0 && $price != 0 && $data['itype'] != 1) {
-        if ($data['total_money'] > $iprice) {
-          $data['total_money'] = bcsub($data['total_money'], $price, 0);
-        }
-      }
       $data['total_money'] = bcmul($data['total_money'], 100, 0);
       // 统一下单
-      $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
+      $jsApiParameters = wxJsapiPay($this->openid,'建材商品',$data['inumber'],$data['total_money'],$this->id);
       echo J($jsApiParameters);
       die;
     }

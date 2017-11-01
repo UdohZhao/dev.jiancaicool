@@ -7,9 +7,9 @@ function basicInfoEdit(type,gcid,id){
   window.location.href = "/admin/goods/add/type/"+type+"/gcid/"+gcid+"/id/"+id;
 }
 
-// 规格编辑
-function specificationEdit(gid){
-  window.location.href = "/admin/goodsSpecification/add/gid/"+gid;
+// 规格编辑&型号编辑
+function specificationEdit(gid,gtype){
+  window.location.href = "/admin/goodsSpecification/add/gid/"+gid+"/gtype/"+gtype;
 }
 
 // 封面编辑

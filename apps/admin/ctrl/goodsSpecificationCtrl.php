@@ -7,6 +7,7 @@ class goodsSpecificationCtrl extends baseCtrl{
   public $db;
   public $id;
   public $type;
+  public $gtype;
   // 构造方法
   public function _auto(){
     $this->gid = isset($_GET['gid']) ? intval($_GET['gid']) : 0;
@@ -15,6 +16,8 @@ class goodsSpecificationCtrl extends baseCtrl{
     $this->id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     // type为1时表示更新
     $this->type = isset($_GET['type']) ? intval($_GET['type']) : 0;
+    $this->gtype = isset($_GET['gtype']) ? intval($_GET['gtype']) : 0;
+    $this->assign('gtype',$this->gtype);
   }
 
   // 添加商品规格页面
@@ -22,7 +25,7 @@ class goodsSpecificationCtrl extends baseCtrl{
     // Get
     if (IS_GET === true) {
       // 读取相关数据
-      $data = $this->db->getCorrelation($this->gid);
+      $data = $this->db->getCorrelation($this->gid,$this->gtype);
       if ($data) {
         // 更新操作
         $this->assign('type',1);
@@ -42,7 +45,7 @@ class goodsSpecificationCtrl extends baseCtrl{
       $data = $this->getData();
       // 删除相关数据
       if ($this->type == 1) {
-        $res = $this->db->delCorrelation($this->gid);
+        $res = $this->db->delCorrelation($this->gid,$this->gtype);
         if (!$res) {
           echo J(R(401,'请尝试刷新页面后重试 :('));
           die;
@@ -50,14 +53,14 @@ class goodsSpecificationCtrl extends baseCtrl{
       }
       foreach ($data['gid'] AS $k => $v) {
         // 写入数据表
-        $res = $this->db->add($data['gid'][$k],$data['cname'][$k]);
+        $res = $this->db->add($data['gid'][$k],$data['cname'][$k],$data['type'][$k]);
       }
       if ($res) {
         // type为1时表示更新
         if ($this->type == 1) {
           $this->gid = 0;
         }
-        echo J(R(200,'受影响的操作 :)',array('gid'=>$this->gid)));
+        echo J(R(200,'受影响的操作 :)',array('gid'=>$this->gid,'gtype'=>$this->gtype)));
         die;
       } else {
         echo J(R(400,'请尝试刷新页面后重试 :('));
@@ -72,6 +75,7 @@ class goodsSpecificationCtrl extends baseCtrl{
     foreach ($_POST['cname'] AS $k => $v) {
       $data['gid'][] = $this->gid;
       $data['cname'][] = htmlspecialchars($v);
+      $data['type'][] = $this->gtype;
     }
     return $data;
   }

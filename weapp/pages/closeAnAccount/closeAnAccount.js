@@ -337,9 +337,7 @@ Page({
             url: App.data.domain + '/indent/wxPay',
             data: {
               id: that.data.iid,
-              openid: wx.getStorageSync('openid'),
-              iprice: wx.getStorageSync('iprice'),
-              price: wx.getStorageSync('price')
+              openid: wx.getStorageSync('openid')
             },
             header: {
               'content-type': 'application/json'

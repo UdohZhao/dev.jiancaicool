@@ -9,19 +9,29 @@ class goodsCategoryCtrl extends baseCtrl{
   public $gdb;
   public $id;
   public $type;
+  public $pid;
   // 构造方法
   public function _auto(){
     $this->db = new goodsCategory();
     $this->gdb = new goods();
     $this->id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $this->pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
     $this->type = isset($_GET['type']) ? intval($_GET['type']) : 0;
     $this->assign('type',$this->type);
+    $this->assign('pid',$this->pid);
   }
 
   // 添加商品分类页面
   public function add(){
     // Get
     if (IS_GET === true) {
+      // pid
+      if ($this->pid) {
+        // 读取pid名称
+        $pidCname = $this->db->getCname($this->pid);
+        // assign
+        $this->assign('pidCname',$pidCname);
+      }
       // id
       if ($this->id) {
         // 读取单条数据
@@ -82,6 +92,7 @@ class goodsCategoryCtrl extends baseCtrl{
 
   // 初始化数据
   private function getData($icon_path){
+    $data['pid'] = $this->pid;
     $data['icon_path'] = $icon_path;
     $data['cname'] = htmlspecialchars($_POST['cname']);
     $data['sort'] = intval($_POST['sort']);
@@ -94,11 +105,11 @@ class goodsCategoryCtrl extends baseCtrl{
     // search
     $search = isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '';
     // 获取总记录数
-    $totalRow = $this->db->totalRow($this->type);
+    $totalRow = $this->db->totalRow($this->type,$this->pid);
     // 实例化分页类
     $page = new Page($totalRow,conf::get('LIMIT','admin'));
     // 读取数据
-    $data = $this->db->getAll($this->type,$search,$page->limit);
+    $data = $this->db->getAll($this->type,$this->pid,$search,$page->limit);
     // assign
     $this->assign('data',$data);
     $this->assign('page',$page->showpage());

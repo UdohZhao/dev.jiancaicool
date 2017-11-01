@@ -7,6 +7,7 @@ use apps\home\model\publicity;
 use apps\home\model\indentGoods;
 class mainCtrl extends baseCtrl{
   public $type;
+  public $pid;
   public $gcdb;
   public $gdb;
   public $gcodb;
@@ -16,6 +17,7 @@ class mainCtrl extends baseCtrl{
   // 构造方法
   public function _auto(){
     $this->type = isset($_GET['type']) ? intval($_GET['type']) : 0;
+    $this->pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
     $this->gcid = isset($_GET['gcid']) ? intval($_GET['gcid']) : 0;
     $this->gcdb = new goodsCategory();
     $this->gdb = new goods();
@@ -28,9 +30,8 @@ class mainCtrl extends baseCtrl{
   public function getData(){
     // Get
     if (IS_GET === true) {
-      $data = array();
       // 请求商品分类数据
-      $data['gcData'] = $this->gcdb->getAll($this->type);
+      $data['gcData'] = $this->gcdb->getAll($this->type,$this->pid);
       $gcAll = array();
       $gcAll['id'] = 0;
       $gcAll['icon_path'] = '/dist/images/icon/gc-all.png';
@@ -41,6 +42,7 @@ class mainCtrl extends baseCtrl{
       // 请求全部商品数据
       $data['gData'] = $this->gdb->getAll($this->type);
       if ($data['gData']) {
+        $data['gCount'] = count($data['gData']);
         foreach ($data['gData'] AS $k => $v) {
           // 请求相关商品封面图片
           $data['gData'][$k]['img_path'] = $this->gcodb->getCover($v['id']);
@@ -71,6 +73,7 @@ class mainCtrl extends baseCtrl{
         $data['gData'] = $this->gdb->getCorrelation($this->gcid);
       }
       if ($data['gData']) {
+        $data['gCount'] = count($data['gData']);
         // 请求相关商品封面图片
         foreach ($data['gData'] AS $k => $v) {
           $data['gData'][$k]['img_path'] = $this->gcodb->getCover($v['id']);
@@ -85,6 +88,18 @@ class mainCtrl extends baseCtrl{
       die;
     }
 
+  }
+
+  /**
+   * 请求是否有下级
+   */
+  public function getPidCount(){
+    // Get
+    if (IS_GET === true) {
+      $data = $this->gcdb->getPidCount($this->gcid);
+      echo J(R(200,'',$data));
+      die;
+    }
   }
 
 

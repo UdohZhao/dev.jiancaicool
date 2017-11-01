@@ -344,6 +344,9 @@ Page({
     var gid = new Array();
     var cname = new Array();
     var specification = new Array();
+    var gmodel = new Array();
+    var isdelivery = new Array();
+    var isinstallation = new Array();
     var promotion_price = new Array();
     var quantity = new Array();
     var totalPrice = that.data.totalPrice;
@@ -354,6 +357,9 @@ Page({
         cname.push(carts[i].gData.cname);
         promotion_price.push(carts[i].gData.promotion_price);
         specification.push(carts[i].specification);
+        gmodel.push(carts[i].gmodel);
+        isdelivery.push(carts[i].isdelivery);
+        isinstallation.push(carts[i].isinstallation);
         quantity.push(carts[i].quantity);
       }
     }
@@ -404,6 +410,9 @@ Page({
       console.log(gid);
       console.log(cname);
       console.log(specification);
+      console.log(gmodel);
+      console.log(isdelivery);
+      console.log(isinstallation);
       console.log(promotion_price);
       console.log(quantity);
       console.log(totalPrice);
@@ -426,6 +435,9 @@ Page({
           gid: gid,
           cname: cname,
           specification: specification,
+          gmodel: gmodel,
+          isdelivery: isdelivery,
+          isinstallation: isinstallation,
           promotion_price: promotion_price,
           quantity: quantity,
           totalPrice: totalPrice,

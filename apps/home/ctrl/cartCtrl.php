@@ -51,7 +51,11 @@ class cartCtrl extends baseCtrl{
     $data['gid'] = $_POST['gid'];
     $data['openid'] = $_POST['openid'];
     $data['specification'] = $_POST['specification'];
+    $data['gmodel'] = $_POST['gmodel'];
     $data['quantity'] = $_POST['quantity'];
+    $data['isdelivery'] = $_POST['isdelivery'];
+    $data['isinstallation'] = $_POST['isinstallation'];
+    $data['total_money'] = 0;
     $data['ctime'] = time();
     return $data;
   }
@@ -69,6 +73,13 @@ class cartCtrl extends baseCtrl{
       // 读取商品数据
       foreach ($data['cData'] AS $k => $v) {
         $data['cData'][$k]['gData'] = $this->gdb->getInfo($v['gid']);
+        // 是否送货／安装？
+        if ($data['cData'][$k]['isdelivery'] == 1) {
+          $data['cData'][$k]['gData']['promotion_price'] = bcadd($data['cData'][$k]['gData']['promotion_price'], $data['cData'][$k]['gData']['delivery_expense'], 2);
+        }
+        if ($data['cData'][$k]['isinstallation'] == 1) {
+          $data['cData'][$k]['gData']['promotion_price'] = bcadd($data['cData'][$k]['gData']['promotion_price'], $data['cData'][$k]['gData']['installation_expense'], 2);
+        }
         $data['cData'][$k]['gData']['img_path'] = $this->gcodb->getCover($v['gid']);
         $data['cData'][$k]['selected'] = true;
       }

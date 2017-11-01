@@ -20,6 +20,14 @@ $(function(){
           required: true,
           number: true
         },
+        delivery_expense: {
+          required: true,
+          number: true
+        },
+        installation_expense: {
+          required: true,
+          number: true
+        },
         percentage: {
           required: true,
           digits: true
@@ -42,6 +50,14 @@ $(function(){
         },
         promotion_price: {
           required: "<span style='color:red;'>促销价不能为空 :(</span>",
+          number: "<span style='color:red;'>必须输入合法的数字（整数，小数） :(</span>"
+        },
+        delivery_expense: {
+          required: "<span style='color:red;'>送货费用不能为空 :(</span>",
+          number: "<span style='color:red;'>必须输入合法的数字（整数，小数） :(</span>"
+        },
+        installation_expense: {
+          required: "<span style='color:red;'>安装费用不能为空 :(</span>",
           number: "<span style='color:red;'>必须输入合法的数字（整数，小数） :(</span>"
         },
         percentage: {

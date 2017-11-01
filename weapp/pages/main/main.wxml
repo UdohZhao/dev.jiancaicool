@@ -2,14 +2,23 @@
     <view class="page__bd">
 
     <!-- 首页banner start -->
-    <swiper indicator-dots="{{indicatorDots}}"
-      autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:500rpx;">
-      <block wx:for="{{gData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
-        <swiper-item data-gid="{{v.id}}" bindtap="gotoGoodsDetail">
-          <image src="{{domain}}{{v.img_path}}" class="slide-image"/>
-        </swiper-item>
-      </block>
-    </swiper>
+    <block wx:if="{{gData}}">
+      <swiper indicator-dots="{{indicatorDots}}"
+        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:500rpx;">
+        <block wx:if="{{gCount == 1}}">
+          <swiper-item data-gid="{{gData[0].id}}" bindtap="gotoGoodsDetail">
+            <image src="{{domain}}{{gData[0].img_path}}" class="slide-image"/>
+          </swiper-item>
+        </block>
+        <block wx:else>
+          <block wx:for="{{gData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
+            <swiper-item data-gid="{{v.id}}" bindtap="gotoGoodsDetail">
+              <image src="{{domain}}{{v.img_path}}" class="slide-image"/>
+            </swiper-item>
+          </block>
+        </block>
+      </swiper>
+    </block>
     <!-- 首页banner end -->
 
       <view class="weui-tab">
@@ -26,10 +35,10 @@
             <block wx:for="{{gcData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
                 <view id="{{k}}" data-gcid="{{v.id}}" bindtap="tabClick" class="weui-grid gc-grid" hover-class="weui-grid_active">
                 <view wx:if="{{k == 0}}">
-                    <image class="weui-grid__icon" src="{{v.icon_path}}"/>
+                    <image class="weui-grid__icon gc-grid-img" src="{{v.icon_path}}"/>
                 </view>
                 <view wx:else>
-                    <image class="weui-grid__icon" src="{{domain}}{{v.icon_path}}"/>
+                    <image class="weui-grid__icon gc-grid-img" src="{{domain}}{{v.icon_path}}"/>
                 </view>
                     <view class="weui-grid__label">{{v.cname}}</view>
                 </view>

@@ -90,7 +90,8 @@
                         <view class="weui-media-box__title ge-user">{{v.nickname}}<text class="ge-status" wx:if="{{v.status == 0}}">【好评】</text><text class="ge-status" wx:if="{{v.status == 1}}">【中评】</text><text class="ge-status" wx:if="{{v.status == 2}}">【差评】</text></view>
                         <view class="weui-media-box__desc">
                           <view class="goods-title">商品规格：{{v.specification}}</view>
-                          <view class="goods-estimate">{{v.estimate}}</view>
+                          <view class="goods-title">商品型号：{{v.gmodel}}</view>
+                          <view class="goods-estimate">{{v.estimate}}方法反反复复反反复复反反复复反反复复反反复复反反复复</view>
                         </view>
                     </view>
                 </view>
@@ -152,28 +153,55 @@
 </navigator>
 <!--商品信息 end-->
 
-
-<!--商品规格 start-->
-<view class="commodity-specification-box">
-<view class="commodity-specification-title">商品规格：</view> 
-<view class="commodity-specification-content">
-        <view class="weui-cells weui-cells_after-title">
-            <radio-group bindchange="radioChange">
-                <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
-                    <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
-                    <view class="weui-cell__bd">{{item.name}}</view>
-                    <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
-                        <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-                    </view>
-                </label>
-            </radio-group>
+<!-- 商品规格和型号 -->
+<view class="weui-cells__title"># 选择商品规格和型号</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">商品规格</view>
         </view>
+        <view class="weui-cell__bd">
+            <picker bindchange="bindSpecificationChange" value="{{specificationIndex}}" range="{{gData.specification}}">
+                <view class="weui-select weui-select_in-select-after">{{gData.specification[specificationIndex]}}</view>
+            </picker>
+        </view>
+    </view>
+    <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">商品型号</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker bindchange="bindGmodelChange" value="{{gmodelIndex}}" range="{{gData.gModel}}">
+                <view class="weui-select weui-select_in-select-after">{{gData.gModel[gmodelIndex]}}</view>
+            </picker>
+        </view>
+    </view>
 </view>
-</view>
-<!--商品规格 end-->
 
-<!--购买数量 start-->
-<view class="purchase-quantity-box">
+<!-- 送货费用 -->
+<view class="weui-cells__title"># 是否送货上门？</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">送货费用¥{{gData.delivery_expense}}</view>
+        <view class="weui-cell__ft">
+            <switch checked bindtap="bindDeliveryTap"/>
+        </view>
+    </view>
+</view>
+
+<!-- 安装费用 -->
+<view class="weui-cells__title"># 是否上门安装？</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">安装费用¥{{gData.installation_expense}}</view>
+        <view class="weui-cell__ft">
+            <switch checked bindtap="bindInstallationTap" />
+        </view>
+    </view>
+</view>
+
+<!-- 购买数量 -->
+<view class="weui-cells__title"># 请加减购买数量</view>
 <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_switch">
         <view class="weui-cell__bd">购买数量</view>
@@ -190,8 +218,6 @@
         </view>
     </view>
 </view>
-</view>
-<!--购买数量 end-->
 
 <!--确定 start-->
 <view class="bottom-btn" bindtap="addCartConfirm">

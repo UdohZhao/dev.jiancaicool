@@ -45,14 +45,12 @@ $(function(){
         $(form).ajaxSubmit({
             dataType:"json",
             success:function( res ){
+              console.log(res);
               // res
-              if (res.code == 400) {
-                swal("登录失败", res.msg, "error");
-              } else if (res.code == 401) {
-                swal("登录失败", res.msg, "error");
-              } else {
+              if (res.code == 200) {
                 window.location.href = '/admin/index/index';
-                // window.setTimeout("window.location.href='/admin/index/index'",2000);
+              } else {
+                swal("登录失败", res.msg, "error");
               }
             },
             error:function(e){

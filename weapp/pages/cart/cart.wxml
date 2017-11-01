@@ -9,7 +9,13 @@
                       <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
                       <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList"/>
                       <navigator url="/pages/goodsDetail/goodsDetail?gid={{item.gid}}"><image class="cart-thumb" src="{{domain}}{{item.gData.img_path}}"></image></navigator>
-                      <text class="cart-pro-name">「{{item.specification}}」{{item.gData.cname}}</text>
+                      <text class="cart-pro-name">{{item.gData.cname}}</text>
+                      <text class="cart-pro-specification">规格：{{item.specification}}</text>
+                      <text class="cart-pro-gmodel">型号：{{item.gmodel}}</text>
+                      <text class="cart-pro-isdelivery" wx:if="{{item.isdelivery == 1}}">是否送货上门：是 + ¥{{item.gData.delivery_expense}}</text>
+                      <text class="cart-pro-isdelivery" wx:else>是否送货上门：否</text>
+                      <text class="cart-pro-isinstallation" wx:if="{{item.isinstallation == 1}}">是否上门安装：是 + ¥{{item.gData.installation_expense}}</text>
+                      <text class="cart-pro-isinstallation" wx:else>是否上门安装：否</text>
                       <text class="cart-pro-price">￥{{item.gData.promotion_price}} - {{item.gData.percentage_price}}</text>
                       <view class="cart-count-box">
                           <text class="cart-count-down" bindtap="minusCount" data-index="{{index}}">-</text>

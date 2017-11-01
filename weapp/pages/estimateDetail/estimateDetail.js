@@ -30,7 +30,8 @@ Page({
     that.setData({
       iid: options.iid,
       gid: options.gid,
-      goods_specification: options.goods_specification
+      goods_specification: options.goods_specification,
+      goods_model: options.goods_model
     });
 
     //调用应用实例的方法获取全局数据
@@ -44,6 +45,7 @@ Page({
     console.log(that.data.iid);
     console.log(that.data.gid);
     console.log(that.data.goods_specification);
+    console.log(that.data.goods_model);
     console.log(that.data.userInfo);
   
   },
@@ -120,10 +122,11 @@ Page({
 
     var that = this;
 
-    // 获取订单id，商品id，商品规格，评价状态，评价内容，openid，昵称，头像
+    // 获取订单id，商品id，商品规格，商品型号，评价状态，评价内容，openid，昵称，头像
     console.log(that.data.iid);
     console.log(that.data.gid);
     console.log(that.data.goods_specification);
+    console.log(that.data.goods_model);
     console.log(that.data.checkedRadio);
     console.log(e.detail.value.estimate);
     
@@ -161,6 +164,7 @@ Page({
           iid: that.data.iid,
           gid: that.data.gid,
           specification: that.data.goods_specification,
+          gmodel: that.data.goods_model,
           status: that.data.checkedRadio,
           estimate: e.detail.value.estimate,
           openid: wx.getStorageSync('openid'),

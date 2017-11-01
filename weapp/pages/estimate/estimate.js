@@ -129,10 +129,11 @@ Page({
     console.log(e.currentTarget.dataset.iid);
     console.log(e.currentTarget.dataset.gid);
     console.log(e.currentTarget.dataset.goods_specification);
+    console.log(e.currentTarget.dataset.goods_model);
 
     // 前往商品评价详细
     wx.navigateTo({
-      url: '/pages/estimateDetail/estimateDetail?iid=' + e.currentTarget.dataset.iid + '&gid=' + e.currentTarget.dataset.gid + '&goods_specification=' + e.currentTarget.dataset.goods_specification
+      url: '/pages/estimateDetail/estimateDetail?iid=' + e.currentTarget.dataset.iid + '&gid=' + e.currentTarget.dataset.gid + '&goods_specification=' + e.currentTarget.dataset.goods_specification + '&goods_model=' + e.currentTarget.dataset.goods_model
     });
     
   }

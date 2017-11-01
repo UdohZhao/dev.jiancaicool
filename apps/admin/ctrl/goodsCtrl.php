@@ -100,6 +100,8 @@ class goodsCtrl extends baseCtrl{
     $data['tips'] = htmlspecialchars($_POST['tips']);
     $data['original_price'] = $_POST['original_price'];
     $data['promotion_price'] = $_POST['promotion_price'];
+    $data['delivery_expense'] = $_POST['delivery_expense'];
+    $data['installation_expense'] = $_POST['installation_expense'];
     $data['inventory'] = $_POST['inventory'];
     $data['percentage'] = $_POST['percentage'];
     $data['percentage_price'] = bcmul($data['promotion_price'], bcdiv($data['percentage'], 100, 2), 2);
@@ -139,7 +141,7 @@ class goodsCtrl extends baseCtrl{
       $res = $this->db->del($this->id);
       if ($res) {
         // goods_specification
-        $this->gsdb->delCorrelation($this->id);
+        $this->gsdb->delCAll($this->id);
         // goods_cover
         $data = $this->gcodb->getCorrelation($this->id);
         foreach ( $data AS $k => $v ) {

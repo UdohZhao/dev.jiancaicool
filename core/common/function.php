@@ -233,7 +233,7 @@ function wxJsapiPay($openId,$goods,$order_sn,$total_fee,$attach){
     $input->SetOut_trade_no($order_sn);          //订单号
     $input->SetTotal_fee($total_fee);            //支付金额,单位:分
     $input->SetTime_start(date("YmdHis"));       //支付发起时间
-    $input->SetTime_expire(date("YmdHis", time() + 600));//支付超时
+    //$input->SetTime_expire(date("YmdHis", time() + 600));//支付超时
     $input->SetGoods_tag("1");
     //支付回调验证地址
     $input->SetNotify_url(conf::get('SERVER_NAME','weapp')."/indent/notify");

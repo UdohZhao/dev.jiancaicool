@@ -4,10 +4,10 @@ use core\lib\model;
 class goodsSpecification extends model{
   public $table = 'goods_specification';
   /**
-   * 读取相关商品规格
+   * 读取相关商品规格／型号
    */
-  public function getCorrelation($gid){
-    return $this->select($this->table,'cname',['gid'=>$gid]);
+  public function getCorrelation($gid,$type){
+    return $this->select($this->table,'cname',['gid'=>$gid,'type'=>$type]);
   }
 
 }

@@ -21,7 +21,7 @@ class goodsCategory extends model{
   /**
    * 读取全部记录
    */
-  public function getAll($type,$search,$limit){
+  public function getAll($type,$pid,$search,$limit){
     // sql
     $sql = "
         SELECT
@@ -32,6 +32,8 @@ class goodsCategory extends model{
                 1 = 1
         AND
                 type = '$type'
+        AND
+                pid = '$pid'
         AND
                 cname like '%$search%'
         ORDER BY
@@ -67,8 +69,8 @@ class goodsCategory extends model{
   /**
    * 读取总记录数
    */
-  public function totalRow($type){
-    return $this->count($this->table,['type'=>$type]);
+  public function totalRow($type,$pid){
+    return $this->count($this->table,['type'=>$type,'pid'=>$pid]);
   }
 
   /**

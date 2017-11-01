@@ -6,7 +6,7 @@ class goodsCategory extends model{
   /**
    * 读取全部数据
    */
-  public function getAll($type){
+  public function getAll($type,$pid){
     // sql
     $sql = "
         SELECT
@@ -17,10 +17,20 @@ class goodsCategory extends model{
                 1 = 1
         AND
                 type = '$type'
+        AND
+                pid = '$pid'
         ORDER BY
                 sort ASC
     ";
     return $this->query($sql)->fetchAll();
+  }
+
+  /**
+   * 统计pid数据
+   */
+  public function getPidCount($gcid)
+  {
+    return $this->count($this->table,['pid'=>$gcid]);
   }
 
 }

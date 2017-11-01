@@ -64,6 +64,23 @@
   color: #999;
   padding:10px 15px;
 }
-
-
-
+.g-title{
+  font-size: 30rpx;
+  overflow-x:hidden;
+  width: 500rpx;
+}
+.img-thumb{
+  padding: 0;
+  margin: 0;
+  height: 250rpx;
+  width: 200rpx;
+  margin-right: 10rpx;
+}
+.commodity-prices{
+  color: #ff2600;
+  font-size: 28rpx;
+}
+.buy-quantity{
+  float: right;
+  font-size: 28rpx;
+}

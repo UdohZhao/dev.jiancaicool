@@ -30,7 +30,8 @@ Page({
     wx.request({
       url: App.data.domain + '/group/index',
       data: {
-        type: 1
+        type: 1,
+        pid: 0
       },
       header: {
         'content-type': 'application/json'

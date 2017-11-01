@@ -25,7 +25,11 @@ Page({
     minusStatus: 'disabled',
     domain: App.data.domain,
     contactPathicon: '/dist/images/icon/service.png',
-    cartPathicon: '/dist/images/icon/cart-default.png'
+    cartPathicon: '/dist/images/icon/cart-default.png',
+    specificationIndex: 0,
+    gmodelIndex: 0,
+    isDelivery: 1,
+    isInstallation: 1
 
   },
 
@@ -71,6 +75,9 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
+
+        console.log(res.data);
+
         // if 
         if (res.data.code == 400) {
           wx.showModal({
@@ -90,9 +97,7 @@ Page({
           // 赋值
           that.setData({
             gData: res.data.data,
-            dcData: res.data.data.dcData,
-            radioItems: res.data.data.specification,
-            radioValue: res.data.data.specification[0].name
+            dcData: res.data.data.dcData
           })
 
          
@@ -305,7 +310,7 @@ Page({
   },
 
   /**
-   * 单选框改变事件
+   * 单选框改变事件（规格）
    */
   radioChange: function (e) {
     var that = this;
@@ -316,6 +321,22 @@ Page({
     that.setData({
       radioItems: radioItems,
       radioValue: e.detail.value
+    });
+
+  },
+
+  /**
+   * 单选框改变事件（型号）
+   */
+  gModelRadioChange: function (e) {
+    var that = this;
+    var gModelRadioItems = that.data.gModelRadioItems;
+    for (var i = 0, len = gModelRadioItems.length; i < len; ++i) {
+      gModelRadioItems[i].checked = gModelRadioItems[i].value == e.detail.value;
+    }
+    that.setData({
+      gModelRadioItems: gModelRadioItems,
+      gModelRadioValue: e.detail.value
     });
 
   },
@@ -391,8 +412,11 @@ Page({
       })
     }.bind(this), 200);
 
-    // 核心操作（获取选中的商品规格，购买数量）
-    console.log(that.data.radioValue);
+    // 核心操作（获取选中的商品规格，商品型号，是否送货上门，是否上门安装，购买数量）
+    console.log(that.data.gData.specification[that.data.specificationIndex]);
+    console.log(that.data.gData.gModel[that.data.gmodelIndex]);
+    console.log(that.data.isDelivery);
+    console.log(that.data.isInstallation);
     console.log(that.data.num);
     console.log(wx.getStorageSync('openid'));
     console.log(that.data.gData.inventory);
@@ -434,8 +458,11 @@ Page({
         url: App.data.domain + '/cart/add',
         data:{
           openid: wx.getStorageSync('openid'),
-          specification: that.data.radioValue,
+          specification: that.data.gData.specification[that.data.specificationIndex],
+          gmodel: that.data.gData.gModel[that.data.gmodelIndex],
           quantity: that.data.num,
+          isdelivery: that.data.isDelivery,
+          isinstallation: that.data.isInstallation,
           gid: that.data.gData.id
         },
         header: {
@@ -443,6 +470,8 @@ Page({
         },
         method: 'POST',
         success: function (res) {
+
+          console.log(res.data);
 
           // if 
           if (res.data.code == 400) {
@@ -610,7 +639,66 @@ Page({
       }
     })
 
+  },
 
+  /**
+   * 选择商品规格
+   */
+  bindSpecificationChange: function (e) {
+    console.log(e.detail.value);
+
+    this.setData({
+      specificationIndex: e.detail.value
+    })
+
+  },
+
+  /**
+   * 选择商品型号
+   */
+  bindGmodelChange: function (e) {
+    console.log(e.detail.value);
+
+    this.setData({
+      gmodelIndex: e.detail.value
+    })
+
+  },
+
+  /**
+   * 送货费用
+   */
+  bindDeliveryTap: function (e) {
+    var that = this;
+    // true or false
+    if (that.data.isDelivery == 1) {
+      that.setData({
+        isDelivery: 0
+      })
+    } else {
+      that.setData({
+        isDelivery: 1
+      })
+    }
+    console.log(that.data.isDelivery);
+  },
+
+  /**
+   * 安装费用
+   */
+  bindInstallationTap: function (e) {
+    var that = this;
+    // true or false
+    if (that.data.isInstallation == 1) {
+      that.setData({
+        isInstallation: 0
+      })
+    } else {
+      that.setData({
+        isInstallation: 1
+      })
+    }
+    console.log(that.data.isInstallation);
   }
 
 })

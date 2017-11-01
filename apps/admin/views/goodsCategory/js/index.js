@@ -57,3 +57,15 @@ function addGoods(type,gcid){
 function indexGoods(type,gcid){
   window.location.href = "/admin/goods/index/type/"+type+"/gcid/"+gcid;
 }
+
+// 添加子集
+function addSubset(pid){
+  console.log(pid);
+  window.location.href = "/admin/goodsCategory/add/pid/"+pid;
+}
+
+// 子集类别列表
+function indexSubset(type,pid){
+  console.log(pid);
+  window.location.href = "/admin/goodsCategory/index/type/"+type+"/pid/"+pid;
+}

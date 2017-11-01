@@ -82,10 +82,28 @@
                     <dd>{{ vv.goods_name }}</dd>
                     <dt>商品规格</dt>
                     <dd>{{ vv.goods_specification }}</dd>
+                    <dt>商品型号</dt>
+                    <dd>{{ vv.goods_model }}</dd>
                     <dt>商品价格</dt>
                     <dd>¥{{ vv.goods_price }}</dd>
                     <dt>购买数量</dt>
                     <dd>x{{ vv.quantity }}</dd>
+                    <dt>是否送货上门</dt>
+                    <dd>
+                      {% if vv.isdelivery == 1 %}
+                        是
+                      {% else %}
+                        否
+                      {% endif %}
+                    </dd>
+                    <dt>是否上门安装</dt>
+                    <dd>
+                      {% if vv.isinstallation == 1 %}
+                        是
+                      {% else %}
+                        否
+                      {% endif %}
+                    </dd>
                   </dl>
                 {% endfor %}
               </td>

@@ -5,11 +5,12 @@ $(function(){
    // 获取规格
    var cname = $("#cname").val();
    if (cname == false) {
-    swal("提交失败", "商品规格不能为空 :(", "error");
+    swal("提交失败", "不能为空 :(", "error");
    } else {
      $(this).ajaxSubmit({
         dataType:"json",
         success: function(res){
+          console.log(res);
           // res
           if (res.code == 400) {
             swal("提交失败", res.msg, "error");
@@ -20,6 +21,9 @@ $(function(){
             if (res.data.gid == 0) {
               swal("提交成功", res.msg, "success");
               setTimeout("window.location.reload();",2000);
+            } else if (res.data.gtype == 0) {
+              // 添加型号
+              window.location.href = "/admin/goodsSpecification/add/gid/"+res.data.gid+"/gtype/1";
             } else {
               window.location.href = "/admin/goodsCover/add/gid/"+res.data.gid;
             }

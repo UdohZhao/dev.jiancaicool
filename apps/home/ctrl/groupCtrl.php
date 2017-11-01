@@ -6,6 +6,7 @@ use apps\home\model\goodsCover;
 use apps\home\model\groupGoods;
 class groupCtrl extends baseCtrl{
   public $type;
+  public $pid;
   public $gcid;
   public $gcdb;
   public $gdb;
@@ -14,6 +15,7 @@ class groupCtrl extends baseCtrl{
   // 构造方法
   public function _auto(){
     $this->type = isset($_GET['type']) ? intval($_GET['type']) : 1;
+    $this->pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
     $this->gcid = isset($_GET['gcid']) ? intval($_GET['gcid']) : 0;
     $this->gcdb = new goodsCategory();
     $this->gdb = new goods();
@@ -27,7 +29,7 @@ class groupCtrl extends baseCtrl{
     if (IS_GET === true) {
       $data = array();
       // 请求商品分类数据
-      $data['gcData'] = $this->gcdb->getAll($this->type);
+      $data['gcData'] = $this->gcdb->getAll($this->type,$this->pid);
       $gcAll = array();
       $gcAll['id'] = 0;
       $gcAll['cname'] = '全部';

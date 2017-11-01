@@ -16,7 +16,7 @@
           <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">商品名称</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="cname" value="{{ data.cname }}" placeholder="请输入用户名">
+              <input type="text" class="form-control" name="cname" value="{{ data.cname }}" placeholder="请输入商品名称">
             </div>
           </div>
           <div class="form-group">
@@ -35,6 +35,18 @@
             <label for="inputEmail3" class="col-sm-2 control-label">促销价</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" name="promotion_price" value="{{ data.promotion_price }}" placeholder="请输入促销价">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">送货费用</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="delivery_expense" value="{{ data.delivery_expense }}" placeholder="请输入送货费用">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">安装费用</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="installation_expense" value="{{ data.installation_expense }}" placeholder="请输入安装费用">
             </div>
           </div>
           {% if type == 0 %}

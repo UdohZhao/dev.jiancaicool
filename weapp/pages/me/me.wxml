@@ -9,7 +9,7 @@
     <image class="avatar-img" src="{{userInfo.avatarUrl}}"></image>
     </view>
     <view class="nick-name">{{userInfo.nickName}}</view>
-    <view class="coupon">优惠累计额度：<text class="coupon-text">¥{{coupon}}</text></view>
+    <view class="coupon">代金券累计额度：<text class="coupon-text">¥{{coupon}}</text></view>
     </view>
   </view>
   <!--个人信息 end-->

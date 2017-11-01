@@ -50,14 +50,9 @@ class goodsCtrl extends baseCtrl{
         // 请求商品封面图片
         $data['img_path'] = $this->gcodb->getAllCover($this->id);
         // 请求相关商品规格
-        $specification = $this->gsdb->getCorrelation($this->id);
-        foreach ($specification AS $k => $v) {
-          if( $k == 0 ){
-            $data['specification'][$k] = array('name'=>$v,'value'=>$v,'checked'=>true);
-          }else{
-            $data['specification'][$k] = array('name'=>$v,'value'=>$v);
-          }
-        }
+        $data['specification'] = $this->gsdb->getCorrelation($this->id,0);
+        // 请求相关商品型号
+        $data['gModel'] = $this->gsdb->getCorrelation($this->id,1);
         // type为1时表示拼团商品
         if ($this->type == 1) {
           $data['ggData'] = $this->ggdb->getCorrelation($this->id);
@@ -111,6 +106,7 @@ class goodsCtrl extends baseCtrl{
     $data = array();
     $data['gid'] = $_POST['gid'];
     $data['specification'] = $_POST['specification'];
+    $data['gmodel'] = $_POST['gmodel'];
     $data['openid'] = $_POST['openid'];
     $data['nickname'] = $_POST['nickname'];
     $data['avatarurl'] = $_POST['avatarurl'];

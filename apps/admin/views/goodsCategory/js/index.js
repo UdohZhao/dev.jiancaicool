@@ -3,8 +3,9 @@ $(function(){
 })
 
 // 编辑
-function edit(id){
-  window.location.href = "/admin/goodsCategory/add/id/"+id;
+function edit(id,pid){
+  console.log(id,pid);
+  window.location.href = "/admin/goodsCategory/add/id/"+id+"/pid/"+pid;
 }
 
 // 删除
@@ -28,13 +29,11 @@ function del(id){
         url: "/admin/goodsCategory/del/id/"+id,
         dataType: "JSON",
         success: function(res){
-          if (res.code == 400) {
-            swal("提交失败", res.msg, "error");
-          } else if (res.code == 401) {
-            swal("提交失败", res.msg, "error");
-          } else {
+          if (res.code == 200) {
             swal("提交成功", res.msg, "success");
             window.setTimeout("window.location.reload();",2000);
+          } else {
+            swal("提交失败", res.msg, "error");
           }
         },
         error: function(e){

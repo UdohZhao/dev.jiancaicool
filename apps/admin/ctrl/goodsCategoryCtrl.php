@@ -122,6 +122,12 @@ class goodsCategoryCtrl extends baseCtrl{
   public function del(){
     // Ajax
     if (IS_AJAX === true) {
+      // 读取子集
+      $res = $this->db->getCountRows($this->id);
+      if ($res) {
+        echo J(R(402,'请先删除该商品类别所属子集 :('));
+        die;
+      }
       $res = $this->gdb->countGcid($this->id);
       if ($res) {
         echo J(R(401,'请先删除该商品类别所属的商品 :('));

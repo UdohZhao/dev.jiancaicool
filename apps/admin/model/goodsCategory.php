@@ -80,5 +80,12 @@ class goodsCategory extends model{
     return $this->get($this->table,'cname',['id'=>$id]);
   }
 
+  /**
+   * 统计子集
+   */
+  public function getCountRows($id){
+    return $this->count($this->table,['pid'=>$id]);
+  }
+
 
 }

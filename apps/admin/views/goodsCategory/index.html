@@ -53,7 +53,7 @@
               <td>{{ v.cname }}</td>
               <td>{{ v.sort }}</td>
               <td>
-                <button type="button" class="btn btn-primary btn-xs" onclick="edit({{ v.id }});">编辑</button>
+                <button type="button" class="btn btn-primary btn-xs" onclick="edit({{v.id}},{{v.pid}});">编辑</button>
                 <button type="button" class="btn btn-default btn-xs" onclick="del({{ v.id }});">删除</button>
                 <button type="button" class="btn btn-danger btn-xs" onclick="addSubset({{ v.id }});">添加子集类别</button>
                 <button type="button" class="btn btn-danger btn-xs" onclick="indexSubset({{ type }},{{ v.id }});">子集类别列表</button>

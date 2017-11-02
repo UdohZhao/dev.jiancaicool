@@ -17,7 +17,8 @@ Page({
     indicatorDots: true,
     autoplay: true,
     interval: 5000,
-    duration: 1000
+    duration: 1000,
+    bannerHide: true
   },
 
   /**
@@ -180,8 +181,15 @@ Page({
       activeIndex: e.currentTarget.id
     });
 
-    // 获取商品类别id，pid
+    // 获取商品类别id
     var gcid = e.currentTarget.dataset.gcid;
+    
+    // gcid为0时刷新页面
+    if (gcid == 0) {
+      wx.reLaunch({
+        url: '/pages/main/main'
+      })
+    }
 
     // 友好体验开始
     wx.showLoading({
@@ -259,7 +267,8 @@ Page({
               // 赋值
               that.setData({
                 gCount: res.data.data.gCount,
-                gData: res.data.data.gData
+                gData: res.data.data.gData,
+                bannerHide: false
               })
 
               console.log(that.data.gData)

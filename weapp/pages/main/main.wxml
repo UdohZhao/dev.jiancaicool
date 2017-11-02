@@ -2,7 +2,7 @@
     <view class="page__bd">
 
     <!-- 首页banner start -->
-    <block wx:if="{{gData}}">
+    <block wx:if="{{bannerHide}}">
       <swiper indicator-dots="{{indicatorDots}}"
         autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" style="height:500rpx;">
         <block wx:if="{{gCount == 1}}">
